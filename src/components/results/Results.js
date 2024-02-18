@@ -10,25 +10,22 @@ import {
 import { TrackList } from "../tracklist/Tracklist"; // Import the Track component
 import SearchBar from "../searchbar/Searchbar"; // Import the Track component
 
-const ResultsCard = ({ tracks }) => {
+const ResultsCard = ({ tracks, onAddToPlaylist }) => {
   return (
     <>
-      <Flex justifyContent="center" alignItems="center" marginTop="20%">
-        <Card w="50%">
-          <Box p={4}>
+      <Flex justifyContent="center" alignItems="center" marginTop="20%" marginLeft="10%">
+        <Card w="204%">
+          <Box padding={24}>
             <Heading size="xl">Results</Heading>
             <List mt={2}>
-            <TrackList tracks={tracks} />;
-              {/* Add more songs here */}
+            <TrackList tracks={tracks} onAdd={onAddToPlaylist} context="results" />
             </List>
-            <Button mt={10} colorScheme="blue">
-              Save To Spotify
-            </Button>
           </Box>
         </Card>
       </Flex>
     </>
   );
 };
+
 
 export default ResultsCard;
