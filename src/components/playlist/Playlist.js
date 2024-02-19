@@ -105,7 +105,7 @@ const PlaylistCard = ({ tracks, onRemoveFromPlaylist, onClearPlaylist }) => {
   };
 
   return (
-    <Flex justifyContent="center" alignItems="center" p={5}>
+    <Flex justifyContent="center" alignItems="center" pl={5}>
       <Card
         width="full"
         maxWidth="500px"
