@@ -12,7 +12,12 @@ const PlaylistCard = ({ tracks, onRemoveFromPlaylist, onClearPlaylist }) => {
         console.log("Saving playlist with title:", title);
       
         // Create an array of track URIs
-        const trackUris = tracks.map(track => track.uri);
+        const trackUris = tracks.map(track => ({
+          name: track.name,
+          artist: track.artist,
+          album: track.album,
+          url: track.uri
+        }));
         console.log("Track URIs:", trackUris);
       
         // Here you would send trackUris to Spotify's API to save the playlist
@@ -30,50 +35,43 @@ const PlaylistCard = ({ tracks, onRemoveFromPlaylist, onClearPlaylist }) => {
     const handleEditTitle = () => { 
         setIsTitleSet(false);
     }
-
-  return (
-    <>
-      <Flex justifyContent="center" alignItems="center" marginTop="20%" marginRight="10%">
-        <Card w="204%">
-          <Box padding={24}>
-            <HStack spacing={2} marginBottom="4">
-            {!isTitleSet ? (
-                <>
-                  <Input
-                    size="large"
-                    placeholder="Enter Playlist Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSetTitle()}
-                  />
-                  <Button colorScheme="blue" onClick={handleSetTitle}>Set Title</Button>
-                </>
-              ) : (
-                <Text fontSize="2xl" onDoubleClick={handleEditTitle}>{title}</Text>
-              )}
-             </HStack>
-            {tracks.length > 0 && (
-              <VStack spacing={4}>
-                {tracks.map((track) => (
-                  <Box key={track.id} p={2} shadow="md" borderWidth="1px" display="flex" justifyContent="space-between" alignItems="center">
-                    <VStack align="start">
-                      <Text fontWeight="bold">{track.name}</Text>
-                      <Text>{track.artist}</Text>
-                      <Text>{track.album}</Text>
-                    </VStack>
-                    <Button colorScheme="red" size="sm" onClick={() => onRemoveFromPlaylist(track)}>Remove</Button>
-                  </Box>
-                ))}
-              </VStack>
+    return (
+      <Flex justifyContent="center" alignItems="center" p={5}>
+        <Card width="full" maxWidth="500px" bg="white" p={5} boxShadow="xl" borderRadius="lg">
+          <VStack spacing={4} align="stretch">
+            {isTitleSet ? (
+              <Text fontSize="2xl" onDoubleClick={handleEditTitle}>{title}</Text>
+            ) : (
+              <HStack>
+                <Input
+                  placeholder="Enter Playlist Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  size="md"
+                />
+                <Button colorScheme="blue" onClick={handleSetTitle}>Set Title</Button>
+              </HStack>
             )}
-            <Button mt={4} colorScheme="blue" onClick={handleSaveToSpotify}>
+            {tracks.length > 0 ? (
+              tracks.map((track) => (
+                <HStack key={track.id} justifyContent="space-between" alignItems="center" p={2} borderWidth="1px" borderRadius="lg">
+                  <VStack align="start" spacing={0} overflow="hidden">
+                    <Text fontWeight="bold" isTruncated>{track.name}</Text>
+                    <Text fontSize="sm" isTruncated>{track.artist}</Text>
+                    <Text fontSize="sm" isTruncated>{track.album}</Text>
+                  </VStack>
+                  <Button colorScheme="red" size="sm" onClick={() => onRemoveFromPlaylist(track)}>Remove</Button>
+                </HStack>
+              ))
+            ) : (
+              <Text>No tracks in playlist.</Text>
+            )}
+            <Button mt={4} colorScheme="blue" onClick={handleSaveToSpotify} isFullWidth>
               Save To Spotify
             </Button>
-          </Box>
+          </VStack>
         </Card>
       </Flex>
-    </>
-  );
+    );
 };
-
 export default PlaylistCard;

@@ -46,16 +46,6 @@ const App = () => {
       <Box marginTop="3%">
         <MusicControls />
       </Box>
-      <Flex direction="row" justifyContent="space-around">
-        <ResultsCard tracks={tracks} onAddToPlaylist={addToPlaylist} />
-        <PlaylistCard
-          tracks={playlistTracks}
-          playlistTitle={playlistTitle}
-          onTitleChange={setPlaylistTitle}
-          onClearPlaylist={clearPlaylist}
-          onRemoveFromPlaylist={removeFromPlaylist}
-        />
-      </Flex>
     </ChakraProvider>
   );
 };

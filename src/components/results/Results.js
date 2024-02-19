@@ -6,24 +6,27 @@ import {
   List,
   ListItem,
   Flex,
+  Text
 } from "@chakra-ui/react";
 import { TrackList } from "../tracklist/Tracklist"; // Import the Track component
 import SearchBar from "../searchbar/Searchbar"; // Import the Track component
 
 const ResultsCard = ({ tracks, onAddToPlaylist }) => {
   return (
-    <>
-      <Flex justifyContent="center" alignItems="center" marginTop="20%" marginLeft="10%">
-        <Card w="204%">
-          <Box padding={24}>
-            <Heading size="xl">Results</Heading>
+    <Flex justifyContent="center" alignItems="flex-start">
+      <Card w="100%" minWidth="300px">
+        <Box padding={6}>
+          <Heading size="md" textAlign="center">Results</Heading>
+          {tracks.length > 0 ? (
             <List mt={2}>
-            <TrackList tracks={tracks} onAdd={onAddToPlaylist} context="results" />
+              <TrackList tracks={tracks} onAdd={onAddToPlaylist} context="results" />
             </List>
-          </Box>
-        </Card>
-      </Flex>
-    </>
+          ) : (
+            <Text textAlign="center" mt={2}>No results to display.</Text>
+          )}
+        </Box>
+      </Card>
+    </Flex>
   );
 };
 

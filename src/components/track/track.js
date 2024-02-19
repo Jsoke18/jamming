@@ -1,25 +1,30 @@
-import { VStack, Box, Button, Text } from "@chakra-ui/react";
+import { VStack, Box, Button, Text, Spacer } from "@chakra-ui/react";
 
 export const Track = ({ track, onAdd, onRemove, context }) => {
     return (
-        <Box display="flex" alignItems="center" w="full" px={5} mt={5}>
-            <VStack align="start" spacing={6} flex="1"> 
-                <Text fontSize="xl" isTruncated>
-                    {track.name}
-                </Text>
-                <Text fontSize="sm"> 
-                    {track.artist}
-                </Text>
-                <Text fontSize="sm"> 
-                   {track.album}
-                </Text>
-            </VStack>
-            {context === "results" && (
-                <Button colorScheme="blue" size="sm" borderRadius="full" onClick={() => onAdd(track)}>Add</Button>
-            )}
-            {context === "playlist" && (
-                <Button colorScheme="red" size="sm" borderRadius="full" onClick={() => onRemove(track)}>Remove</Button>
-            )}
-        </Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between" w="full" px={5} py={2}>
+        <VStack align="start" spacing={1} flex="1" mt="5">
+            <Text fontSize="small" isTruncated fontWeight={"bold"}>
+                {track.name}
+            </Text>
+            <Text fontSize="sm" isTruncated> 
+                Artist: {track.artist}
+            </Text>
+            <Text fontSize="sm" isTruncated> 
+               Album: {track.album}
+            </Text>
+        </VStack>
+        <Spacer />
+        <Button
+            colorScheme="blue"
+            size="sm"
+            minW="50px" // Set a minimum width for buttons
+            borderRadius="full"
+            onClick={() => (context === "results" ? onAdd(track) : onRemove(track))}
+            ml={"10"}
+        >
+            {context === "results" ? "Add" : "Remove"}
+        </Button>
+    </Box>
     );
 };
