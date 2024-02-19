@@ -32,8 +32,7 @@ const MusicControls = () => {
   const handleClearPlaylist = () => {
     setPlaylist([]); // Clear the entire playlist
   };
-
-
+  
   return (
     <VStack spacing={8}>
       <Navbar onSearchResults={handleSearchResults} />
