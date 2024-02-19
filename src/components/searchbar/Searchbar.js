@@ -70,7 +70,6 @@ const SearchBar = ({ onSearchResults }) => {
   };
 
   return (
-    <Center>
       <InputGroup maxW="md">
         <Input
           placeholder="Search Spotify"
@@ -87,7 +86,6 @@ const SearchBar = ({ onSearchResults }) => {
           />
         </InputRightElement>
       </InputGroup>
-    </Center>
   );
 };
 

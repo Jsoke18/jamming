@@ -14,7 +14,8 @@ const MusicControls = () => {
       name: track.name,
       artist: track.artists.map(artist => artist.name).join(', '),
       album: track.album.name,
-      uri: track.uri 
+      uri: track.uri,
+      preview_url: track.preview_url
     }));
     setSearchResults(results);
   };
