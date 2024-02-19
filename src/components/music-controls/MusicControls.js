@@ -10,7 +10,7 @@ const MusicControls = () => {
 
   const handleSearchResults = (data) => {
     const results = data.tracks.items.map(track => ({
-      id: track.album.id,
+      id: track.id, 
       name: track.name,
       artist: track.artists.map(artist => artist.name).join(', '),
       album: track.album.name,
@@ -18,8 +18,8 @@ const MusicControls = () => {
       preview_url: track.preview_url
     }));
     setSearchResults(results);
+    console.log("test", results)
   };
-
   const handleAddTrack = (track) => {
     if (!playlist.find(pTrack => pTrack.id === track.id)) {
       setPlaylist([...playlist, track]);

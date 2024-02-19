@@ -1,33 +1,33 @@
-import { Box } from "@chakra-ui/react"; // Import Box from Chakra UI
-import { Track } from "../track/track"; // Import the Track component
 import React, { useState } from 'react';
+import { Box } from "@chakra-ui/react";
+import { Track } from "../track/track";
 
 export const TrackList = ({ tracks, onAdd, onRemove, context }) => {
-  const [playingUrl, setPlayingUrl] = useState('');
+  const [playingTrack, setPlayingTrack] = useState(null);
   
-  const playTrack = (url) => {
-      if (url === playingUrl) {
-          // If the same track was clicked, pause it
-          setPlayingUrl('');
-      } else {
-          // Play the new track
-          setPlayingUrl(url);
-      }
+  const handlePreview = (selectedTrack) => {
+    if (playingTrack && playingTrack.id === selectedTrack.id) {
+      // If the same track was clicked, pause it
+      setPlayingTrack(null);
+    } else {
+      // Play the new track
+      setPlayingTrack(selectedTrack);
+    }
   };
 
   return (
-      <Box>
-          {tracks.map((track, index) => (
-              <Track 
-                key={`${track.id}-${index}`} 
-                track={track} 
-                isPlaying={track.preview_url === playingUrl}
-                handlePreview={() => playTrack(track.preview_url)}
-                onAdd={onAdd} 
-                onRemove={onRemove} 
-                context={context} 
-              />
-          ))}
-      </Box>
+    <Box>
+      {tracks.map((track) => (
+        <Track 
+          key={track.id} 
+          track={track} 
+          onAdd={onAdd} 
+          onRemove={onRemove} 
+          context={context}
+          isPlaying={playingTrack && playingTrack.id === track.id}
+          handlePreview={() => handlePreview(track)}
+        />
+      ))}
+    </Box>
   );
 };

@@ -17,15 +17,7 @@ const Navbar = ({ onSearchResults }) => {
         <SearchBar onSearchResults={onSearchResults} />
       </Flex>
 
-      <Button
-        colorScheme="teal" 
-        variant="solid"
-        size="md"
-        position="absolute"
-        right="1rem"
-      >
-        My Playlists
-      </Button>
+ 
     </Flex>
   );
 };
