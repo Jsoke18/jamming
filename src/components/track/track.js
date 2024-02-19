@@ -2,25 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { VStack, Box, Button, Text, Spacer, IconButton } from "@chakra-ui/react";
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa";
-
-export const Track = ({ track, onAdd, onRemove, context }) => {
-    const [isPlaying, setIsPlaying] = useState(false);
+export const Track = ({ track, onAdd, onRemove, context, isPlaying, handlePreview }) => {
     const audioRef = useRef(new Audio(track.preview_url));
 
-    const handlePreview = () => {
-        if (isPlaying) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play();
-        }
-        setIsPlaying(!isPlaying);
-    };
-
-    // Stop the preview when the component unmounts
     useEffect(() => {
-        return () => {
-            audioRef.current.pause();
-        };
+        isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    }, [isPlaying]);
+
+    useEffect(() => {
+        return () => audioRef.current.pause(); // Ensure the audio stops on component unmount
     }, []);
 
     return (
@@ -41,12 +31,12 @@ export const Track = ({ track, onAdd, onRemove, context }) => {
                 icon={isPlaying ? <FaPause /> : <FaPlay />}
                 onClick={handlePreview}
                 size="sm"
-                aria-label={isPlaying ? 'Stop preview' : 'Play preview'}
+                aria-label={isPlaying ? 'Pause preview' : 'Play preview'}
             />
             <Button
                 colorScheme="blue"
                 size="sm"
-                minW="50px" // Set a minimum width for buttons
+                minW="50px"
                 borderRadius="full"
                 onClick={() => (context === "results" ? onAdd(track) : onRemove(track))}
                 ml={"10"}
