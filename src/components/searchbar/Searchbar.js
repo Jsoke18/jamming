@@ -77,6 +77,7 @@ const SearchBar = ({ onSearchResults }) => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          color={"white"}
         />
         <InputRightElement>
           <IconButton

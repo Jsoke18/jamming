@@ -43,9 +43,15 @@ const App = () => {
   
   return (
     <ChakraProvider>
-      <Box marginTop="3%">
-        <MusicControls />
-      </Box>
+     <Box
+      minH="100vh"
+      backgroundImage="url(/6cbb36a34afe45944dc1280aed5f9c0c.jpg)"
+      backgroundPosition="center"
+      backgroundRepeat="no-repeat"
+      backgroundSize="cover"
+    >
+      <MusicControls />
+    </Box>
     </ChakraProvider>
   );
 };
