@@ -7,26 +7,64 @@ const PlaylistCard = ({ tracks, onRemoveFromPlaylist, onClearPlaylist }) => {
     const [title, setTitle] = useState(""); // Used for the playlist title input
     const [isTitleSet, setIsTitleSet] = useState(false); // New state to track if the title has been set
 
-    const handleSaveToSpotify = () => {
-        // Log the playlist title
-        console.log("Saving playlist with title:", title);
+    const handleSaveToSpotify = async () => {
+      // Retrieve the access token from localStorage
       
-        // Create an array of track URIs
-        const trackUris = tracks.map(track => ({
-          name: track.name,
-          artist: track.artist,
-          album: track.album,
-          url: track.uri
-        }));
-        console.log("Track URIs:", trackUris);
-      
-        // Here you would send trackUris to Spotify's API to save the playlist
-        // For now, just log the URIs to the console
-      
-        // Reset the playlist title and tracks in the web app
-        setTitle(""); // Clear the playlist title
-        onClearPlaylist(); // This function should clear the tracks
+      const accessToken = localStorage.getItem('spotifyAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       };
+  
+      try {
+        // Step 1: Get the User's ID
+        const userProfileResponse = await fetch('https://api.spotify.com/v1/me', { headers });
+        const userProfile = await userProfileResponse.json();
+        if (userProfileResponse.status === 401) {
+          throw new Error('Spotify token expired. Please re-authenticate.');
+        }
+        const userId = userProfile.id;
+  
+        // Step 2: Create a New Playlist
+        const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            name: title, // Use the title from your state
+            description: 'My playlist description', // You can customize this
+            public: false, // Set to true if you want the playlist to be public
+          }),
+        });
+  
+        if (createPlaylistResponse.status !== 201) {
+          throw new Error('Failed to create playlist.');
+        }
+  
+        const playlistData = await createPlaylistResponse.json();
+        const playlistId = playlistData.id;
+  
+        // Step 3: Add Tracks to the Playlist
+        const trackUris = tracks.map(track => track.uri); // Ensure you're getting the correct track URIs
+        const addTracksResponse = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ uris: trackUris }),
+        });
+  
+        if (addTracksResponse.status !== 201) {
+          throw new Error('Failed to add tracks to playlist.');
+        }
+  
+        console.log(`Playlist created with ID: ${playlistId}`);
+        setTitle("");
+        onClearPlaylist();
+      } catch (error) {
+        console.error('Error during Spotify operations:', error);
+        // Handle errors, e.g., by showing a notification to the user
+        // If the token is expired, you may need to re-initiate the authentication process
+      }
+    };
+    
       
   
     const handleSetTitle = () => { 
@@ -35,6 +73,7 @@ const PlaylistCard = ({ tracks, onRemoveFromPlaylist, onClearPlaylist }) => {
     const handleEditTitle = () => { 
         setIsTitleSet(false);
     }
+
     return (
       <Flex justifyContent="center" alignItems="center" p={5}>
         <Card width="full" maxWidth="500px" bg="white" p={5} boxShadow="xl" borderRadius="lg">

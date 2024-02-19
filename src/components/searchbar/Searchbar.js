@@ -4,7 +4,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 
 const client_id = '88702172318f409fb685b629e46c25f9'; // Replace with your Spotify client ID
 const redirect_uri = 'http://localhost:3000/'; // Your redirect URI
-const scope = 'user-read-private user-read-email'; // The scopes you require
+const scope = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
 const stateKey = 'spotify_auth_state'; // Key for storing state string in localStorage
 
 // Function to generate a random string for the state parameter

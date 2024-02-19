@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { VStack, Flex} from "@chakra-ui/react";
-import SearchBar from '../searchbar/Searchbar';
+import Navbar from '../navbar/Navbar';
 import ResultsCard from '../results/Results'; // Adjust the path as needed
 import PlaylistCard from '../playlist/Playlist';  // Adjust the path as needed
 
@@ -11,10 +11,10 @@ const MusicControls = () => {
   const handleSearchResults = (data) => {
     const results = data.tracks.items.map(track => ({
       id: track.album.id,
-      name: track.album.name,
+      name: track.name,
       artist: track.artists.map(artist => artist.name).join(', '),
       album: track.album.name,
-      uri: track.uri // Assuming the track object has a 'uri' field
+      uri: track.uri 
     }));
     setSearchResults(results);
   };
@@ -32,9 +32,11 @@ const MusicControls = () => {
   const handleClearPlaylist = () => {
     setPlaylist([]); // Clear the entire playlist
   };
+
+
   return (
     <VStack spacing={8}>
-      <SearchBar onSearchResults={handleSearchResults} />
+      <Navbar onSearchResults={handleSearchResults} />
       <Flex direction="row" justifyContent="space-evenly" alignItems="flex-start"> {/* Add alignItems="flex-start" */}
         <ResultsCard tracks={searchResults} onAddToPlaylist={handleAddTrack} />
         <PlaylistCard 
