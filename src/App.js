@@ -4,6 +4,7 @@ import ResultsCard from "./components/results/Results";
 import PlaylistCard from "./components/playlist/Playlist";
 import { useState } from "react";
 import Navbar from "./components/navbar/Navbar"; // Import the Track component
+import MusicControls from "./components/music-controls/MusicControls"; // Import the Track component
 
 const App = () => {
   const [playlistTracks, setPlaylistTracks] = useState([]); // Tracks in the playlist
@@ -43,7 +44,7 @@ const App = () => {
   return (
     <ChakraProvider>
       <Box marginTop="3%">
-        <Navbar />
+        <MusicControls />
       </Box>
       <Flex direction="row" justifyContent="space-around">
         <ResultsCard tracks={tracks} onAddToPlaylist={addToPlaylist} />
